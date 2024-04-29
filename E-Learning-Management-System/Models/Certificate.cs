@@ -7,7 +7,7 @@ namespace E_Learning_Management_System.Models
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public bool IsDeleted { get; set; } = false;
-        [ForeignKey("")]
+        [ForeignKey("Quizzes")]
         public int? QuizId { get; set; }
         public TheQuizzes? Quizzes { get; set; }
         [ForeignKey("Learner")]
