@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Learning_Management_System.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240428215205_init")]
-    partial class init
+    [Migration("20240501104327_AccountController")]
+    partial class AccountController
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,7 +185,9 @@ namespace E_Learning_Management_System.Migrations
 
                     b.HasIndex("LearnerId");
 
-                    b.HasIndex("QuizId");
+                    b.HasIndex("QuizId")
+                        .IsUnique()
+                        .HasFilter("[QuizId] IS NOT NULL");
 
                     b.ToTable("Certificate");
                 });
@@ -353,9 +355,6 @@ namespace E_Learning_Management_System.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CertificateId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("FeedbackId")
                         .HasColumnType("int");
 
@@ -372,8 +371,6 @@ namespace E_Learning_Management_System.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CertificateId");
 
                     b.HasIndex("FeedbackId");
 
@@ -392,6 +389,9 @@ namespace E_Learning_Management_System.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CertificateId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("InstructorId")
                         .HasColumnType("int");
 
@@ -399,6 +399,8 @@ namespace E_Learning_Management_System.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CertificateId");
 
                     b.HasIndex("InstructorId");
 
@@ -595,13 +597,13 @@ namespace E_Learning_Management_System.Migrations
                         .WithMany("Certificates")
                         .HasForeignKey("LearnerId");
 
-                    b.HasOne("E_Learning_Management_System.Models.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizId");
+                    b.HasOne("E_Learning_Management_System.Models.TheQuizzes", "Quizzes")
+                        .WithOne()
+                        .HasForeignKey("E_Learning_Management_System.Models.Certificate", "QuizId");
 
                     b.Navigation("Learner");
 
-                    b.Navigation("Quiz");
+                    b.Navigation("Quizzes");
                 });
 
             modelBuilder.Entity("E_Learning_Management_System.Models.Content", b =>
@@ -687,10 +689,6 @@ namespace E_Learning_Management_System.Migrations
 
             modelBuilder.Entity("E_Learning_Management_System.Models.Quiz", b =>
                 {
-                    b.HasOne("E_Learning_Management_System.Models.Certificate", "Certificate")
-                        .WithMany()
-                        .HasForeignKey("CertificateId");
-
                     b.HasOne("E_Learning_Management_System.Models.Feedback", "Feedback")
                         .WithMany()
                         .HasForeignKey("FeedbackId");
@@ -703,8 +701,6 @@ namespace E_Learning_Management_System.Migrations
                         .WithMany("Quizzes")
                         .HasForeignKey("TheQuizzesId");
 
-                    b.Navigation("Certificate");
-
                     b.Navigation("Feedback");
 
                     b.Navigation("Learner");
@@ -714,9 +710,15 @@ namespace E_Learning_Management_System.Migrations
 
             modelBuilder.Entity("E_Learning_Management_System.Models.TheQuizzes", b =>
                 {
+                    b.HasOne("E_Learning_Management_System.Models.Certificate", "Certificate")
+                        .WithMany()
+                        .HasForeignKey("CertificateId");
+
                     b.HasOne("E_Learning_Management_System.Models.Instructor", "Instructor")
                         .WithMany("TheQuizzes")
                         .HasForeignKey("InstructorId");
+
+                    b.Navigation("Certificate");
 
                     b.Navigation("Instructor");
                 });
