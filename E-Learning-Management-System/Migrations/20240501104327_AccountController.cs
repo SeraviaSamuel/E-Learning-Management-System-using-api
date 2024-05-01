@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace E_Learning_Management_System.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class AccountController : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -206,25 +206,6 @@ namespace E_Learning_Management_System.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TheQuizzes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    InstructorId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TheQuizzes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TheQuizzes_Instructor_InstructorId",
-                        column: x => x.InstructorId,
-                        principalTable: "Instructor",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Certificate",
                 columns: table => new
                 {
@@ -238,6 +219,31 @@ namespace E_Learning_Management_System.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Certificate", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TheQuizzes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    CertificateId = table.Column<int>(type: "int", nullable: true),
+                    InstructorId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TheQuizzes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TheQuizzes_Certificate_CertificateId",
+                        column: x => x.CertificateId,
+                        principalTable: "Certificate",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TheQuizzes_Instructor_InstructorId",
+                        column: x => x.InstructorId,
+                        principalTable: "Instructor",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -342,7 +348,6 @@ namespace E_Learning_Management_System.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Mark = table.Column<double>(type: "float", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    CertificateId = table.Column<int>(type: "int", nullable: true),
                     LearnerId = table.Column<int>(type: "int", nullable: true),
                     FeedbackId = table.Column<int>(type: "int", nullable: true),
                     TheQuizzesId = table.Column<int>(type: "int", nullable: true)
@@ -350,11 +355,6 @@ namespace E_Learning_Management_System.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Quiz", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Quiz_Certificate_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificate",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Quiz_Feedback_FeedbackId",
                         column: x => x.FeedbackId,
@@ -444,7 +444,9 @@ namespace E_Learning_Management_System.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Certificate_QuizId",
                 table: "Certificate",
-                column: "QuizId");
+                column: "QuizId",
+                unique: true,
+                filter: "[QuizId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Content_AdminstratorId",
@@ -507,11 +509,6 @@ namespace E_Learning_Management_System.Migrations
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Quiz_CertificateId",
-                table: "Quiz",
-                column: "CertificateId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Quiz_FeedbackId",
                 table: "Quiz",
                 column: "FeedbackId");
@@ -525,6 +522,11 @@ namespace E_Learning_Management_System.Migrations
                 name: "IX_Quiz_TheQuizzesId",
                 table: "Quiz",
                 column: "TheQuizzesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TheQuizzes_CertificateId",
+                table: "TheQuizzes",
+                column: "CertificateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TheQuizzes_InstructorId",
@@ -591,10 +593,10 @@ namespace E_Learning_Management_System.Migrations
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Certificate_Quiz_QuizId",
+                name: "FK_Certificate_TheQuizzes_QuizId",
                 table: "Certificate",
                 column: "QuizId",
-                principalTable: "Quiz",
+                principalTable: "TheQuizzes",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
@@ -678,8 +680,12 @@ namespace E_Learning_Management_System.Migrations
                 table: "Quiz");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_Certificate_Quiz_QuizId",
+                name: "FK_Certificate_TheQuizzes_QuizId",
                 table: "Certificate");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Quiz_TheQuizzes_TheQuizzesId",
+                table: "Quiz");
 
             migrationBuilder.DropForeignKey(
                 name: "FK_Feedback_Quiz_QuizId",
@@ -725,16 +731,16 @@ namespace E_Learning_Management_System.Migrations
                 name: "Learner");
 
             migrationBuilder.DropTable(
-                name: "Quiz");
+                name: "TheQuizzes");
 
             migrationBuilder.DropTable(
                 name: "Certificate");
 
             migrationBuilder.DropTable(
-                name: "Feedback");
+                name: "Quiz");
 
             migrationBuilder.DropTable(
-                name: "TheQuizzes");
+                name: "Feedback");
         }
     }
 }
