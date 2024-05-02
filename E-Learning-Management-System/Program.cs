@@ -1,5 +1,6 @@
 
 using E_Learning_Management_System.Models;
+using E_Learning_Management_System.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace E_Learning_Management_System
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddAutoMapper(typeof(Program)); //auto mapper
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -28,7 +30,8 @@ namespace E_Learning_Management_System
 
             });
 
-            builder.Services.AddCors(options => {
+            builder.Services.AddCors(options =>
+            {
                 options.AddPolicy("MyPolicy",
                                   policy => policy.AllowAnyMethod()
                                   .AllowAnyOrigin()
@@ -38,13 +41,15 @@ namespace E_Learning_Management_System
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
 
 
-            builder.Services.AddAuthentication(options => {
+            builder.Services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 //[authore ]:found toke or not
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 //account/loginresonse unauthorize
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -100,7 +105,7 @@ namespace E_Learning_Management_System
             });
             #endregion
             //----------------------------------------------------------
-
+            builder.Services.AddScoped<IRepository<Course>, Repository<Course>>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

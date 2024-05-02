@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Learning_Management_System.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240501104327_AccountController")]
-    partial class AccountController
+    [Migration("20240502194656_UpdateCourse")]
+    partial class UpdateCourse
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

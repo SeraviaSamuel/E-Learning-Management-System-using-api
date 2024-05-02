@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using E_Learning_Management_System.Repository;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_Learning_Management_System.Models
 {
-    public class Feedback
+    public class Feedback : IDeletable
     {
         public int Id { get; set; }
         public string Message { get; set; }

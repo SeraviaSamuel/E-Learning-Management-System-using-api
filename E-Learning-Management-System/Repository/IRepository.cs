@@ -5,7 +5,7 @@
         public void insert(T obj);
         public void delete(T obj);
         public void update(T obj);
-        public ICollection<T> GetAll();
+        public List<T> GetAll();
         public T Get(Func<T, bool> predicate);
         public int save();
     }

@@ -22,14 +22,17 @@ namespace E_Learning_Management_System.Repository
         {
             context.Set<T>().Update(obj);
         }
-        public ICollection<T> GetAll()
+        public List<T> GetAll()
         {
 
-            return context.Set<T>().ToList();
+            //return context.Set<T>().ToList();
+            return context.Set<T>().Where(e => !((IDeletable)e).IsDeleted).ToList();
         }
         public T Get(Func<T, bool> predicate) //find object by name ,id anything
         {
-            return context.Set<T>().FirstOrDefault(predicate);
+            //return context.Set<T>().FirstOrDefault(predicate);
+            var entities = context.Set<T>().Where(e => !((IDeletable)e).IsDeleted).ToList();
+            return entities.FirstOrDefault(predicate);
         }
         public int save()
         {
