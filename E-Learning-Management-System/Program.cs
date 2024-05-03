@@ -106,7 +106,11 @@ namespace E_Learning_Management_System
             #endregion
             //----------------------------------------------------------
             builder.Services.AddScoped<IRepository<Course>, Repository<Course>>();
+            builder.Services.AddScoped<IRepository<Instructor>, Repository<Instructor>>();
             var app = builder.Build();
+
+           
+           
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
