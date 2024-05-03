@@ -10,6 +10,9 @@ namespace E_Learning_Management_System
         {
             CreateMap<CourseDTO, Course>();
             CreateMap<Course, CourseDTO>();
+
+            CreateMap<InstructorDTO, Instructor>();
+            CreateMap<Instructor, InstructorDTO>();
         }
     }
 }
