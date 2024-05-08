@@ -29,6 +29,19 @@ namespace E_Learning_Management_System
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
             CreateMap<CertificateDTO, Certificate>();   
             CreateMap<Certificate, CertificateDTO>();
         }
