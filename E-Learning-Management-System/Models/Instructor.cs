@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using E_Learning_Management_System.Repository;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_Learning_Management_System.Models
 {
-    public class Instructor
+    public class Instructor : IDeletable
     {
         public int Id { get; set; }
         public string Name { get; set; }

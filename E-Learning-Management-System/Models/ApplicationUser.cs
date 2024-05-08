@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using E_Learning_Management_System.Repository;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_Learning_Management_System.Models
 {
-    public class ApplicationUser : IdentityUser //Account
+    public class ApplicationUser : IdentityUser, IDeletable //Account
     {
         public string Address { get; set; }
         public bool IsDeleted { get; set; } = false;

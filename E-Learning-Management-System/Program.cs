@@ -1,5 +1,6 @@
 
 using E_Learning_Management_System.Models;
+using E_Learning_Management_System.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace E_Learning_Management_System
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddAutoMapper(typeof(Program)); //auto mapper
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -28,7 +30,8 @@ namespace E_Learning_Management_System
 
             });
 
-            builder.Services.AddCors(options => {
+            builder.Services.AddCors(options =>
+            {
                 options.AddPolicy("MyPolicy",
                                   policy => policy.AllowAnyMethod()
                                   .AllowAnyOrigin()
@@ -38,13 +41,15 @@ namespace E_Learning_Management_System
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
 
 
-            builder.Services.AddAuthentication(options => {
+            builder.Services.AddAuthentication(options =>
+            {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 //[authore ]:found toke or not
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 //account/loginresonse unauthorize
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options => {
+            }).AddJwtBearer(options =>
+            {
                 options.SaveToken = true;
                 options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters()
@@ -66,14 +71,14 @@ namespace E_Learning_Management_System
 
             builder.Services.AddSwaggerGen(swagger =>
             {
-                //This is to generate the Default UI of Swagger Documentation    
+                //ThisÂ isÂ toÂ generateÂ theÂ DefaultÂ UIÂ ofÂ SwaggerÂ DocumentationÂ Â Â Â 
                 swagger.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "ASP.NET 5 Web API",
+                    Title = "ASP.NETÂ 5Â WebÂ API",
                     Description = " ITI Projrcy"
                 });
-                // To Enable authorization using Swagger (JWT)    
+                //Â ToÂ EnableÂ authorizationÂ usingÂ SwaggerÂ (JWT)Â Â Â Â 
                 swagger.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
@@ -81,7 +86,7 @@ namespace E_Learning_Management_System
                     Scheme = "Bearer",
                     BearerFormat = "JWT",
                     In = ParameterLocation.Header,
-                    Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
+                    Description = "EnterÂ 'Bearer'Â [space]Â andÂ thenÂ yourÂ validÂ tokenÂ inÂ theÂ textÂ inputÂ below.\r\n\r\nExample:Â \"BearerÂ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
                 });
                 swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -100,8 +105,21 @@ namespace E_Learning_Management_System
             });
             #endregion
             //----------------------------------------------------------
+            builder.Services.AddScoped<IRepository<Course>, Repository<Course>>();
+            builder.Services.AddScoped<IRepository<Instructor>, Repository<Instructor>>();
+            builder.Services.AddScoped<IRepository<Learner>, Repository<Learner>>();
+
+            builder.Services.AddScoped<IRepository<Certificate>, Repository<Certificate>>();
+            builder.Services.AddScoped<IRepository<Quiz>, Repository<Quiz>>();
+
+            builder.Services.AddScoped<IRepository<TheQuizzes>, Repository<TheQuizzes>>();
+
+
 
             var app = builder.Build();
+
+           
+           
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

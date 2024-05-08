@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using E_Learning_Management_System.Repository;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace E_Learning_Management_System.Models
 {
-    public class Certificate
+    public class Certificate : IDeletable
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
