@@ -108,6 +108,7 @@ namespace E_Learning_Management_System
             builder.Services.AddScoped<IRepository<Course>, Repository<Course>>();
             builder.Services.AddScoped<IRepository<Instructor>, Repository<Instructor>>();
             builder.Services.AddScoped<IRepository<Learner>, Repository<Learner>>();
+            builder.Services.AddScoped<IRepository<Certificate>, Repository<Certificate>>();
 
             var app = builder.Build();
 
