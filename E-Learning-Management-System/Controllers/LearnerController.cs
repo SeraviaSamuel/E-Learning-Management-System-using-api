@@ -91,7 +91,7 @@ namespace E_Learning_Management_System.Controllers
 
         }
         [HttpDelete("{id}")]
-        [Authorize]
+        //[Authorize]
         public IActionResult DeleteLearner(int id)
         {
             Learner existingLearner = learnerRepository.Get(l => l.Id == id);

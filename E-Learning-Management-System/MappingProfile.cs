@@ -16,13 +16,18 @@ namespace E_Learning_Management_System
 
 
             CreateMap<QuizDTO, Quiz>();
-          CreateMap<Quiz, QuizDTO>();
+            CreateMap<Quiz, QuizDTO>();
 
             CreateMap<LearnerDTO, Learner>();
             CreateMap<Learner, LearnerDTO>();
 
+
+            CreateMap<TheQuizzes, TheQuizzesDTO>();
+            CreateMap<TheQuizzesDTO, TheQuizzes>();
+
             CreateMap<ContentDTO, Content>();
             CreateMap<Content, ContentDTO>();
+
 
         }
     }
