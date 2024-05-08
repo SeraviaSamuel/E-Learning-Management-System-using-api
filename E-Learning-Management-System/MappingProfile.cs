@@ -42,8 +42,17 @@ namespace E_Learning_Management_System
 
 
 
+
             CreateMap<CertificateDTO, Certificate>();   
             CreateMap<Certificate, CertificateDTO>();
+
+            CreateMap<TheQuizzes, TheQuizzesDTO>();
+            CreateMap<TheQuizzesDTO, TheQuizzes>();
+
+            CreateMap<ContentDTO, Content>();
+            CreateMap<Content, ContentDTO>();
+
+
         }
     }
 }

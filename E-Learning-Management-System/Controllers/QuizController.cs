@@ -59,9 +59,6 @@ namespace E_Learning_Management_System.Controllers
                     {
                         Id = quiz.Id,
                         Mark = quiz.Mark,
-                         LearnerId = quiz.LearnerId,
-                         FeedbackId = quiz.FeedbackId,
-                        TheQuizzesId = quiz.TheQuizzesId
                     };
                     dtos.Add(dto);
                 }
@@ -69,17 +66,6 @@ namespace E_Learning_Management_System.Controllers
             }
             return NotFound("No quizzes found");
         }
-
-        //public IActionResult GetAll()
-        //{
-        //    List<Quiz> quizzes = quizRepository.GetAll();
-        //    if (quizzes != null)
-        //    {
-        //        List<QuizDTO> dtos = quizzes.Select(quiz => mapper.Map<QuizDTO>(quiz)).ToList();
-        //        return Ok(dtos);
-        //    }
-        //    return NotFound("No quizzes found");
-        //}
 
         [HttpGet("{id}")]
         [Authorize]
