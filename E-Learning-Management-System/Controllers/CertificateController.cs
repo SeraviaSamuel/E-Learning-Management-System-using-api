@@ -161,7 +161,7 @@ namespace E_Learning_Management_System.Controllers
             var certificate = new Certificate
             {
                 Date = DateTime.UtcNow,
-                LearnerId = int.Parse(currentUser.Id),
+               // LearnerId = int.Parse(currentUser.Id),
                 // Add other relevant information for the certificate
             };
 
