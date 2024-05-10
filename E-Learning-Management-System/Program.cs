@@ -105,7 +105,10 @@ namespace E_Learning_Management_System
             });
             #endregion
             //----------------------------------------------------------
-            builder.Services.AddScoped<IRepository<Course>, Repository<Course>>();
+
+            builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+            //builder.Services.AddScoped<IRepository<Course>, Repository<Course>>();
             builder.Services.AddScoped<IRepository<Instructor>, Repository<Instructor>>();
             builder.Services.AddScoped<IRepository<Learner>, Repository<Learner>>();
             
@@ -113,13 +116,14 @@ namespace E_Learning_Management_System
             builder.Services.AddScoped<IRepository<Quiz>, Repository<Quiz>>();
 
             builder.Services.AddScoped<IRepository<TheQuizzes>, Repository<TheQuizzes>>();
-
+            builder.Services.AddScoped<IRepository<Content>, Repository<Content>>();
+            builder.Services.AddScoped<IRepository<Quiz>, Repository<Quiz>>();
 
 
             var app = builder.Build();
 
-           
-           
+
+
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
