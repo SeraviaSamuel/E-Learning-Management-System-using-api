@@ -17,7 +17,9 @@ namespace E_Learning_Management_System.Controllers
         private readonly IMapper mapper;
 
         //seravia controller
+
         public CourseController(ICourseRepository courseRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
+
         {
             this.courseRepository = courseRepository;
             this.userManager = userManager;
@@ -71,7 +73,7 @@ namespace E_Learning_Management_System.Controllers
                 return NotFound("Course not found");
             }
             CourseDTO courseDTO = mapper.Map<CourseDTO>(course);
-            return Ok(courseDTO);
+                   return Ok(courseDTO);
         }
         [HttpGet("byInstructorId/{instructorId:int}")]
         [Authorize]

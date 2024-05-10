@@ -1,4 +1,6 @@
-﻿namespace E_Learning_Management_System.DTO
+﻿using E_Learning_Management_System.Models;
+
+namespace E_Learning_Management_System.DTO
 {
     public class CourseDTO
     {
