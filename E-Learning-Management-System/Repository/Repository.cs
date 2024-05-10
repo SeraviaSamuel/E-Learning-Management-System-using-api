@@ -4,7 +4,7 @@ namespace E_Learning_Management_System.Repository
 {
     public class Repository<T> : IRepository<T> where T : class, IDeletable
     {
-        private readonly Context context;
+        public readonly Context context;
         public Repository(Context context)
         {
             this.context = context;

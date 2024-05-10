@@ -12,12 +12,12 @@ namespace E_Learning_Management_System.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly IRepository<Course> courseRepository;
+        private readonly ICourseRepository courseRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
 
         //seravia controller
-        public CourseController(IRepository<Course> courseRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public CourseController(ICourseRepository courseRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             this.courseRepository = courseRepository;
             this.userManager = userManager;
@@ -43,14 +43,18 @@ namespace E_Learning_Management_System.Controllers
         [Authorize]
         public IActionResult GetAll()
         {
-            List<Course> courses = courseRepository.GetAll();
+            List<Course> courses = courseRepository.GetAllIncludeInstructor();
             if (courses != null)
             {
-                List<CourseDTO> dTOs = new List<CourseDTO>();
+                List<CourseIncludeInstructorDTO> dTOs = new List<CourseIncludeInstructorDTO>();
                 foreach (Course course in courses)
                 {
-                    CourseDTO dTO = new CourseDTO();
+                    CourseIncludeInstructorDTO dTO = new CourseIncludeInstructorDTO();
                     dTO.Name = course.Name;
+                    dTO.ImgPath = course.ImgPath;
+                    dTO.Content = course.Content;
+                    dTO.DurationInHours = course.DurationInHours;
+                    dTO.InstructorName = course.Instructor.Name;
                     dTOs.Add(dTO);
                 }
                 return Ok(dTOs);
