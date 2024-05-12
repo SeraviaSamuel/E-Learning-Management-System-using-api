@@ -52,11 +52,12 @@ namespace E_Learning_Management_System.Controllers
                 foreach (Course course in courses)
                 {
                     CourseIncludeInstructorDTO dTO = new CourseIncludeInstructorDTO();
+                    dTO.id= course.Id;
                     dTO.Name = course.Name;
                     dTO.ImgPath = course.ImgPath;
-                    dTO.Content = course.Content;
                     dTO.DurationInHours = course.DurationInHours;
                     dTO.InstructorName = course.Instructor.Name;
+                   
                     dTOs.Add(dTO);
                 }
                 return Ok(dTOs);
@@ -73,7 +74,8 @@ namespace E_Learning_Management_System.Controllers
                 return NotFound("Course not found");
             }
             CourseDTO courseDTO = mapper.Map<CourseDTO>(course);
-                   return Ok(courseDTO);
+          
+                return Ok(courseDTO);
         }
         [HttpGet("byInstructorId/{instructorId:int}")]
         [Authorize]
