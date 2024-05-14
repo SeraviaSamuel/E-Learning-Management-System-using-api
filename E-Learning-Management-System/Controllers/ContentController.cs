@@ -14,15 +14,17 @@ namespace E_Learning_Management_System.Controllers
     public class ContentController : ControllerBase
     {
         private readonly IRepository<Content> contentRepository;
+        private readonly ICourseRepository courseRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
 
         
-        public ContentController(IRepository<Content> contentRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public ContentController(ICourseRepository courseRepository,IRepository<Content> contentRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             this.contentRepository = contentRepository;
             this.userManager = userManager;
             this.mapper = mapper;
+            this.courseRepository = courseRepository;
         }
 
         [HttpPost]
@@ -132,6 +134,36 @@ namespace E_Learning_Management_System.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, "An error occurred while deleting content");
+            }
+        }
+
+        [HttpGet("course/{courseId}")]
+        [Authorize]
+        public IActionResult GetContentsByCourseId(int courseId)
+        {
+            try
+            {
+
+                var course = courseRepository.Get(c=>c.Id==courseId);
+
+                if (course == null)
+                {
+                    return NotFound("Course not found");
+                }
+                List<Content> Contents = contentRepository.GetAll().ToList();
+                // Retrieve contents associated with the course
+                List<ContentDTO> contentDTOs = Contents.Where(c=>c.Id==courseId).Select(c => new ContentDTO
+                {
+                     Id = c.Id,
+                    Type = c.Type,
+                   
+                }).ToList();
+
+                return Ok(contentDTOs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while retrieving contents by course id");
             }
         }
 

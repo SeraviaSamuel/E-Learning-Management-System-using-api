@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Learning_Management_System.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240510221936_updatecourseagain")]
-    partial class updatecourseagain
+    [Migration("20240511201946_finalcourse")]
+    partial class finalcourse
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -234,10 +234,6 @@ namespace E_Learning_Management_System.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DurationInHours")
                         .HasColumnType("int");
