@@ -2,6 +2,7 @@
 {
     public class CourseIncludeInstructorDTO
     {
+        public int id { get; set; }
         public String Name { get; set; }
         public string ImgPath { get; set; }
         public string Content { get; set; }
