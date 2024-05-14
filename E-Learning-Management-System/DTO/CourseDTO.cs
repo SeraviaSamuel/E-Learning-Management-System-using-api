@@ -6,7 +6,9 @@ namespace E_Learning_Management_System.DTO
     {
         public String Name { get; set; }
         public string ImgPath { get; set; }
-        public string Content { get; set; }
         public int DurationInHours { get; set; }
+
+        public int instructorId { get; set; }
+
     }
 }
