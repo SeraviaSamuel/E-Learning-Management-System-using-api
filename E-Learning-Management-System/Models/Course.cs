@@ -7,6 +7,9 @@ namespace E_Learning_Management_System.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string ImgPath { get; set; }
+        public string Content { get; set; }
+        public int DurationInHours { get; set; }
         public bool IsDeleted { get; set; } = false;
         public ICollection<Learner>? Learners { get; set; }
         public ICollection<Content>? Contents { get; set; }
