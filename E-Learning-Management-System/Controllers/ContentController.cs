@@ -159,7 +159,7 @@ namespace E_Learning_Management_System.Controllers
                    
                 }).ToList();
 
-                return Ok(conget5tentDTOs);
+                return Ok(contentDTOs);
             }
             catch (Exception ex)
             {
