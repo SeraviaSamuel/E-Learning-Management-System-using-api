@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace E_Learning_Management_System.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateCourse : Migration
+    public partial class nina : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
