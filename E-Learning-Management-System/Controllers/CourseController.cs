@@ -12,12 +12,14 @@ namespace E_Learning_Management_System.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly IRepository<Course> courseRepository;
+        private readonly ICourseRepository courseRepository;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IMapper mapper;
 
         //seravia controller
-        public CourseController(IRepository<Course> courseRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
+
+        public CourseController(ICourseRepository courseRepository, UserManager<ApplicationUser> userManager, IMapper mapper)
+
         {
             this.courseRepository = courseRepository;
             this.userManager = userManager;
@@ -35,27 +37,40 @@ namespace E_Learning_Management_System.Controllers
                 course.InstructorId = insId;
                 courseRepository.insert(course);
                 courseRepository.save();
-                return Ok("added successfuly");
+                return Ok(new
+                {
+                    Message = "Added successfully"
+                });
             }
-            return BadRequest("can not add");
+            return BadRequest(new
+            {
+                Error = "Unable to add course"
+            });
         }
         [HttpGet]
         [Authorize]
         public IActionResult GetAll()
         {
-            List<Course> courses = courseRepository.GetAll();
+            List<Course> courses = courseRepository.GetAllIncludeInstructor();
             if (courses != null)
             {
-                List<CourseDTO> dTOs = new List<CourseDTO>();
+                List<CourseIncludeInstructorDTO> dTOs = new List<CourseIncludeInstructorDTO>();
                 foreach (Course course in courses)
                 {
-                    CourseDTO dTO = new CourseDTO();
+                    CourseIncludeInstructorDTO dTO = new CourseIncludeInstructorDTO();
                     dTO.Name = course.Name;
+                    dTO.ImgPath = course.ImgPath;
+                    dTO.Content = course.Content;
+                    dTO.DurationInHours = course.DurationInHours;
+                    dTO.InstructorName = course.Instructor.Name;
                     dTOs.Add(dTO);
                 }
                 return Ok(dTOs);
             }
-            return NotFound("There is no Courses");
+            return NotFound(new
+            {
+                Error = "There is no courses"
+            });
         }
         [HttpGet("ByCourseId/{courseId:int}")]
         [Authorize]
@@ -64,7 +79,10 @@ namespace E_Learning_Management_System.Controllers
             var course = courseRepository.Get(c => c.Id == courseId);
             if (course == null)
             {
-                return NotFound("Course not found");
+                return NotFound(new
+                {
+                    Error = "Course Not Found"
+                });
             }
             CourseDTO courseDTO = mapper.Map<CourseDTO>(course);
             return Ok(courseDTO);
@@ -86,7 +104,10 @@ namespace E_Learning_Management_System.Controllers
                 }
                 return Ok(dTOs);
             }
-            return NotFound("No courses found for this instructor.");
+            return NotFound(new
+            {
+                Error = "No courses found for this instructor."
+            });
 
         }
         [HttpPut("{id}")]
@@ -98,14 +119,20 @@ namespace E_Learning_Management_System.Controllers
             int insId = (int)currenUser.InstructorId;
             if (existingCourse == null)
             {
-                return NotFound("Course not found");
+                return NotFound(new
+                {
+                    Error = "courses Not found"
+                });
             }
             existingCourse.Name = courseDTO.Name;
             existingCourse.InstructorId = insId;
             courseRepository.update(existingCourse);
             courseRepository.save();
 
-            return Ok("Course updated successfully");
+            return Ok(new
+            {
+                Message = "Course updated successfully"
+            });
         }
         [HttpDelete("{id}")]
         [Authorize]
@@ -114,12 +141,19 @@ namespace E_Learning_Management_System.Controllers
             Course existingCourse = courseRepository.Get(c => c.Id == id);
             if (existingCourse == null)
             {
-                return NotFound("Course not found");
+                return NotFound(new
+                {
+                    Error = "Course not found"
+                });
+
             }
             courseRepository.delete(existingCourse);
             courseRepository.save();
 
-            return Ok("Course deleted successfully");
+            return Ok(new
+            {
+                Message = "Course Deleted successfully"
+            });
         }
 
     }

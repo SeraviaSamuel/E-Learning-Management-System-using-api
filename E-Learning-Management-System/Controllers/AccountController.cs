@@ -41,10 +41,10 @@ namespace E_Learning_Management_System.Controllers
                     await userManager.CreateAsync(appuser, userDto.Password);
                 if (result.Succeeded)
                 {
-                   
-                    return Ok("Account Created");
+
+                    return Ok(new { message = "Account Created" });
                 }
-                return BadRequest(result.Errors);
+                return BadRequest(new { errors = result.Errors });
             }
             return BadRequest(ModelState);
         }
